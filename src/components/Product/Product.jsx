@@ -6,14 +6,14 @@ import { FcAddressBook } from "react-icons/fc";
 
 
 const Product = (props) => {
-    console.log(props.product);
+    
     const {img, price, seller, ratings, name,id} = props.product;
     const handleAddToCart = props.handleAddToCart;
 
-     console.log(props.handleAddToCart);
+     
     return (
         <div className='product'>
-           <img src={img} alt="" />
+           <img src={img? img : 'not found'} alt="not found" />
           <div className='product-info'>
           <h6>{name}</h6>
            <p>Price :$ {price}</p>
