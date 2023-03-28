@@ -6,6 +6,7 @@ import './Shop.css'
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [showAll, setShowAll] = useState(true)
 
     useEffect(()=>{
       fetch('products.json')
@@ -18,11 +19,15 @@ const Shop = () => {
         setCart(newCart)
     }
 
+    const showAllData =()=>{
+       setShowAll(false)
+    }
+
     return (
         <div className='container'>
             <div className='product-container'>
                {
-                products.map(product=> <Product product={product} key={product.id} handleAddToCart={handleAddToCart}></Product>)
+                products.slice(0, showAll? 6 : products.length).map(product=> <Product product={product} key={product.id} handleAddToCart={handleAddToCart}></Product>)
                }
 
             </div>
@@ -31,6 +36,11 @@ const Shop = () => {
                 <p>Selected Items : {cart.length}</p>
 
             </div>
+          {
+            showAll &&  <div  onClick={showAllData} className='btn-container'>
+            <button className='btn-more'>SEE MORE</button>
+            </div>
+          }
         </div>
     );
 };
