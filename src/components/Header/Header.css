@@ -14,3 +14,8 @@ nav.header a{
     text-decoration: none;
     color: white;
 }
+.link a{
+    text-decoration: none;
+    color: white;
+    margin-left: 20px;
+}
