@@ -24,3 +24,18 @@
 .btn-container{
     text-align: center;
 }
+
+.btn-checkout{
+    background-color: #FF9900;
+    width: 90%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+.btn{
+    text-decoration: none;
+}

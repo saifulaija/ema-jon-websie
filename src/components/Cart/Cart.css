@@ -6,3 +6,13 @@
     position: sticky;
     top: 0;
 }
+.btn-clear{
+    width: 90%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FF3030;
+    color: white;
+    font-weight: bold;
+}

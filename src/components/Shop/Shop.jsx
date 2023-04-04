@@ -1,71 +1,83 @@
-
-import React, { useEffect, useState } from 'react';
-import { addToDb, getShoppingCart } from '../../utilities/fakedb';
-import Cart from '../Cart/Cart';
-import Product from '../Product/Product';
-import './Shop.css'
+import React, { useEffect, useState } from "react";
+import {
+  addToDb,
+  deleteShoppingCart,
+  getShoppingCart,
+} from "../../utilities/fakedb";
+import Cart from "../Cart/Cart";
+import Product from "../Product/Product";
+import "./Shop.css";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
-    const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([]);
-    const [showAll, setShowAll] = useState(true)
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [showAll, setShowAll] = useState(true);
 
-    useEffect(()=>{
-      fetch('products.json')
-      .then(res => res.json())
-      .then(data => setProducts(data))
-    },[])
+  useEffect(() => {
+    fetch("products.json")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
-    useEffect(()=>{
-      
-      const storedCart = getShoppingCart()
-      const saveCart = [];
-      for( const id in storedCart){
+  useEffect(() => {
+    const storedCart = getShoppingCart();
+    const saveCart = [];
+    for (const id in storedCart) {
+      const addedProduct =
+        products && products.find((product) => product.id === id);
 
-        const  addedProduct = products && products.find(product => product.id === id);
-       
-        if(addedProduct){
-          const quantity = storedCart[id];
-          addedProduct.quantity = quantity;
-         saveCart.push(addedProduct);
-        }
-
-       
-      setCart(saveCart)
-       
-        
+      if (addedProduct) {
+        const quantity = storedCart[id];
+        addedProduct.quantity = quantity;
+        saveCart.push(addedProduct);
       }
-    },[products])
 
-    const handleAddToCart = (product) =>{
-        const newCart = [...cart,product];
-        setCart(newCart)
-        addToDb(product.id)
+      setCart(saveCart);
     }
+  }, [products]);
 
-    const showAllData =()=>{
-       setShowAll(false)
-    }
+  const handleAddToCart = (product) => {
+    const newCart = [...cart, product];
+    setCart(newCart);
+    addToDb(product.id);
+  };
 
-    return (
-        <div className='container'>
-            <div className='product-container'>
-               {
-                products.slice(0, showAll? 6 : products.length).map(product=> <Product product={product} key={product.id} handleAddToCart={handleAddToCart}></Product>)
-               }
+  const showAllData = () => {
+    setShowAll(false);
+  };
+  const handleClearCart = () => {
+    setCart([]);
+    deleteShoppingCart();
+  };
 
-            </div>
-            <div className='card__container'>
-               <Cart cart={cart}></Cart>
+  return (
+    <div className="container">
+      <div className="product-container">
+        {products.slice(0, showAll ? 6 : products.length).map((product) => (
+          <Product
+            product={product}
+            key={product.id}
+            handleAddToCart={handleAddToCart}
+          ></Product>
+        ))}
+      </div>
+      <div className="card__container">
+        <Cart cart={cart} handleClearCart={handleClearCart}>
 
-            </div>
-          {
-            showAll &&  <div  onClick={showAllData} className='btn-container'>
-            <button className='btn-more'>SEE MORE</button>
-            </div>
-          }
+            <Link to='/orders' className="btn">
+              <button className="btn-checkout">Review Order</button>
+            </Link>
+
+        </Cart>
+      </div>
+      {showAll && (
+        <div onClick={showAllData} className="btn-container">
+          <button className="btn-more">SEE MORE</button>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default Shop;
