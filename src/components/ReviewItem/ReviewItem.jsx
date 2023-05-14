@@ -4,7 +4,7 @@ import { FaShoppingCart,FaCut } from 'react-icons/fa';
 import { FcAddressBook} from "react-icons/fc";
 
 const reviewItem = ({ product,handleRemoveCart }) => {
-  const { id, img, price, quantity, name } = product;
+  const { _id, img, price, quantity, name } = product;
   return (
     <div className="review-item">
       <img src={img} alt="" />
@@ -15,7 +15,7 @@ const reviewItem = ({ product,handleRemoveCart }) => {
         </p>
         <p>Product Quantity:<span className="orange-text">{quantity}</span> </p>
       </div>
-      <button onClick={()=>handleRemoveCart(id)} className="btn-delete"><FaCut className="delete-icon"/></button>
+      <button onClick={()=>handleRemoveCart(_id)} className="btn-delete"><FaCut className="delete-icon"/></button>
     </div>
   );
 };
